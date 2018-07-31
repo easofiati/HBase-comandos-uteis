@@ -1,7 +1,7 @@
 # HBase - Comandos utéis
 O intuito deste artigo é listar vários comandos utéis no dia a dia do HBase com exemplos e assim servir de guia, principalmente para quem está começando. Os comandos seguirão uma ordem começando da criação do namespace até sua exclusão.
 ```sh
---criar o name space onde serão armazenado as tabelas que utilizaremos
+--criar o name space onde serão armazenado as tabelas que utilizaremos. Por padrão todas as tabelas do HBase são criadas no namespace default
 create_namespace 'namespace'
 create_namespace 'eas'
 
