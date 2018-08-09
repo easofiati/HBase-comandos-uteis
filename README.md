@@ -9,8 +9,14 @@ create_namespace 'eas'
 list_namespace
 
 --criar tabela com família de coluna
-create 'namespace:table_name', {NAME=>'column_family'}, {NAME=>'column_family'}
+create 'namespace:table_name', {NAME=>'column_family'}
 create 'eas:escola', {NAME=>'aluno'}, {NAME=>'instrutor'}
+
+--Listar todas as tabelas criadas no HBase
+list 
+
+--Listar todas as tabelas criadas no HBase que contenham as letras '*sco*' em seu nome 
+list '*sco*'
 
 --adicionar uma família de coluna a tabela
 alter 'namespace:table_name', 'column_family'
@@ -19,15 +25,6 @@ alter 'eas:escola', 'avaliacao'
 --exibir a descrição da tabela
 desc 'namespace:table_name'
 desc 'eas:escola'
-
---Listar todas as tabelas criadas no HBase
-list 
-
---Listar todas as tabelas criadas no HBase que contenham as letras '*sco*' em seu nome 
-list '*sco*'
-
---Listar todas as ta
-
 
 --inserir um registro na tabela
 put 'table_name', 'rowkey', 'column_family:column_name', 'value'
@@ -48,9 +45,9 @@ scan 'escola', {COLUMNS=>'aluno'}
 scan 'table_name', {COLUMNS=>'column_family', LIMIT=>number_lines}
 scan 'escola', {COLUMNS=>'aluno', LIMIT=>2}
 
---Buscar somente o primeiro registro da família de colunas 'aluno' da tabela 'escola'
+--Buscar somente a última versão do registro da família de colunas 'aluno' da tabela 'escola'
 scan 'table_name', {VERSIONS=>1}
-scan 'escola', {VERSIONS=>1}
+scan 'escola', {COLUMNS=>'aluno', VERSIONS=>1}
 
 
 
