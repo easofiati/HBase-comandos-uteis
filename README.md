@@ -40,18 +40,22 @@ desc 'eas:escola'
 
 --inserir um registro na tabela
 sintax: put 'namespace:table_name', 'rowkey', 'column_family:column_name', 'value'
-put 'eas:escola', '1', 'aluno:nome', 'João'
-put 'eas:escola', '1', 'aluno:sobrenome', 'Silva'
-put 'eas:escola', '1', 'instrutor:nome', 'José'
-put 'eas:escola', '1', 'avaliacao:disciplina', 'Português'
+put 'eas:escola', '1', 'aluno:nome', 'Elissandro'
+put 'eas:escola', '1', 'aluno:sobrenome', 'Sofiati'
+put 'eas:escola', '1', 'instrutor:nome', 'Domingos'
+put 'eas:escola', '1', 'avaliacao:disciplina', 'Matematica'
 put 'eas:escola', '2', 'aluno:nome', 'Pedro'
 put 'eas:escola', '2', 'aluno:sobrenome', 'Oliveira'
 put 'eas:escola', '2', 'instrutor:nome', 'Marcos'
-put 'eas:escola', '2', 'avaliacao:disciplina', 'Matemática'
+put 'eas:escola', '2', 'avaliacao:disciplina', 'Matematica'
 put 'eas:escola', '3', 'aluno:nome', 'Maria'
 put 'eas:escola', '3', 'aluno:sobrenome', 'Santos'
 put 'eas:escola', '3', 'instrutor:nome', 'Ana'
 put 'eas:escola', '3', 'avaliacao:disciplina', 'Biologia'
+put 'eas:escola', '4', 'aluno:nome', 'Joao'
+put 'eas:escola', '4', 'aluno:sobrenome', 'Silva'
+put 'eas:escola', '4', 'instrutor:nome', 'Jose'
+put 'eas:escola', '4', 'avaliacao:disciplina', 'Portugues'
 put 'eas:escola', '10', 'aluno:nome', 'Jeferson'
 put 'eas:escola', '10', 'aluno:sobrenome', 'Rocha'
 put 'eas:escola', '10', 'instrutor:nome', 'Eder'
@@ -89,11 +93,22 @@ put 'eas:escola', '10', 'aluno:sobrenome', 'Rocha', 1535660485214
 put 'eas:escola', '10', 'instrutor:nome', 'Eder', 1535660485214
 put 'eas:escola', '10', 'avaliacao:disciplina', 'Geografia', 1535660485214
 
---Buscar todas as colunas de uma tabela para uma linha específica com um determinado 'timestamp'
+--Buscar todas as colunas de uma tabela para uma 'rowkey' específica com um determinado 'timestamp'
 sintax: get 'namespace:table_name', 'rowkey', {COLUMN=>'column_family', TIMESTAMP=>timestamp}
 get 'eas:escola', '10', {TIMESTAMP=>1535660485214}
 
---Buscar todas as linhas de uma determinada tabela com um 'timestamp' específico
+--Buscar todas as colunas de uma tabela que tenham uma rowkey que inicie com '1'
+scan 'eas:escola', {ROWPREFIXFILTER => '1'}
+
+--Buscar todas as colunas das rowkey's que atendam um determinado filtro
+scan 'namespace:table_name', {FILTER => "(SingleColumnValueFilter('column_family','column',operator,'comparator'))"}
+scan 'eas:escola', {FILTER => "(SingleColumnValueFilter('aluno','sobrenome',=,'binary:Pereira'))"}
+scan 'eas:escola', {FILTER => "(SingleColumnValueFilter('aluno','sobrenome',=,'regexstring:.*ei*'))"}
+scan 'eas:escola', {FILTER => "(SingleColumnValueFilter('aluno','sobrenome',=,'regexstring:.*ei*')) AND (SingleColumnValueFilter('aluno','nome',=,'binary:Pedro'))"}
+
+--Buscar em uma determinada tabela, qualquer coluna que tenha um determinado valor
+scan 'eas:escola', {FILTER => "(ValueFilter(=,'binary:Silva'))"}
+
 
 
 --Compactar os dados de uma tabela, sendo que já alteramos as propriedades de uma tabela anteriormente para que a mesma permita compactação
